@@ -320,6 +320,7 @@ public class GameServlet extends HttpServlet {
     private void move(Player player) {
         HashMap<Integer, Field> map = this.fieldMap.getFieldMap();
         int old = player.getActPosition();
+        int tmp = player.getActPosition();
         
         old += player.getCube().getNumber();
         
@@ -327,6 +328,15 @@ public class GameServlet extends HttpServlet {
         player.setImage("img/field_" + player.getId() + ".png");
         
         for (int i = 1; i <= 40; i++) {
+            if (i == tmp) {
+                Field f = new Field();
+                f.setId("field" + i);
+                f.setAlt("");
+                f.setTitle("");
+                f.setSrc("img/field.png");
+                map.put(new Integer(i), f);
+            }
+            
             if (i == player.getActPosition()) {
                 Field f = new Field();
                 f.setId("field" + i);
