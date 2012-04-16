@@ -133,16 +133,34 @@ function callServlet()
 							</ol>
 							<h3 class="accessibility">Starth&auml;user</h3>
 							<ol title="Starthaus Spieler 1">
-								<li><img id='field41' src='img/field1.png' alt='Feld 41: Startfeld Spieler 1' title='Feld 41: Startfeld Spieler 1' /></li>
+                                                            <%
+                                                                List<Field> homep1 = gameInfo.getPlayerById("Spieler 1").getHomeMap().getFieldList();
+                                                                for (Field i: homep1) {%>
+                                                            
+                                                                    <li><img id="<%=i.getId() %>" src="<%=i.getSrc() %>" alt="<%=i.getAlt() %>" title="<%=i.getTitle() %>" /></li>
+                                                                
+                                                                <%}
+                                                            %>
+								<!--<li><img id='field41' src='img/field1.png' alt='Feld 41: Startfeld Spieler 1' title='Feld 41: Startfeld Spieler 1' /></li>
 								<li><img id='field42' src='img/field1.png' alt='Feld 42: Startfeld Spieler 1' title='Feld 42: Startfeld Spieler 1' /></li>
 								<li><img id='field43' src='img/field1_player1.png' alt='Feld 43: Startfeld Spieler 1: Spieler 1' title='Feld 43: Startfeld Spieler 1: Spieler 1' /></li>
 								<li><img id='field44' src='img/field1.png' alt='Feld 44: Startfeld Spieler 1' title='Feld 44: Startfeld Spieler 1' /></li>
+                                                                -->
 							</ol>
 							<ol title="Starthaus Spieler 2">
-								<li><img id='field45' src='img/field2_player2.png' alt='Feld 45: Startfeld Spieler 2: Spieler 2' title='Feld 45: Startfeld Spieler 2: Spieler 2' /></li>
+                                                            <%
+                                                                List<Field> homep2 = gameInfo.getPlayerById("Spieler 2").getHomeMap().getFieldList();
+                                                                for (Field i: homep2) {%>
+                                                            
+                                                                    <li><img id="<%=i.getId() %>" src="<%=i.getSrc() %>" alt="<%=i.getAlt() %>" title="<%=i.getTitle() %>" /></li>
+                                                                
+                                                                <%}
+                                                            %>
+								<!--<li><img id='field45' src='img/field2_player2.png' alt='Feld 45: Startfeld Spieler 2: Spieler 2' title='Feld 45: Startfeld Spieler 2: Spieler 2' /></li>
 								<li><img id='field46' src='img/field2.png' alt='Feld 46: Startfeld Spieler 2' title='Feld 46: Startfeld Spieler 2' /></li>
 								<li><img id='field47' src='img/field2.png' alt='Feld 47: Startfeld Spieler 2' title='Feld 47: Startfeld Spieler 2' /></li>
 								<li><img id='field48' src='img/field2.png' alt='Feld 48: Startfeld Spieler 2' title='Feld 48: Startfeld Spieler 2' /></li>
+                                                                -->
 							</ol>
 							<ol title="Starthaus Spieler 3">	
 								<li><img id='field49' src='img/field3.png' alt='Feld 49: Startfeld Spieler 3' title='Feld 49: Startfeld Spieler 3' /></li>
@@ -158,17 +176,35 @@ function callServlet()
 							</ol>
 							<h3 class="accessibility">Zielh&auml;user</h3>
 							<ol title="Zielhaus Spieler 1">
-								<li><img id='field57' src='img/field1.png' alt='Feld 57: Zielfeld Spieler 1' title='Feld 57: Zielfeld Spieler 1' /></li>
+                                                            <%
+                                                                List<Field> h = gameInfo.getPlayerById("Spieler 1").getGoalMap().getFieldList();
+                                                                for (Field i: h) {%>
+                                                            
+                                                                    <li><img id="<%=i.getId() %>" src="<%=i.getSrc() %>" alt="<%=i.getAlt() %>" title="<%=i.getTitle() %>" /></li>
+                                                                
+                                                                <%}
+                                                            %>
+								<!--<li><img id='field57' src='img/field1.png' alt='Feld 57: Zielfeld Spieler 1' title='Feld 57: Zielfeld Spieler 1' /></li>
 								<li><img id='field58' src='img/field1.png' alt='Feld 58: Zielfeld Spieler 1' title='Feld 58: Zielfeld Spieler 1' /></li>
 								<li><img id='field59' src='img/field1.png' alt='Feld 59: Zielfeld Spieler 1' title='Feld 59: Zielfeld Spieler 1' /></li>
 								<li><img id='field60' src='img/field1.png' alt='Feld 60: Zielfeld Spieler 1' title='Feld 60: Zielfeld Spieler 1' /></li>
-							</ol>
+                                                                -->
+                                                        </ol>
 							<ol title="Zielhaus Spieler 2">	
-								<li><img id='field61' src='img/field2.png' alt='Feld 61: Zielfeld Spieler 2' title='Feld 61: Zielfeld Spieler 2' /></li>
+                                                            <%
+                                                                List<Field> h2 = gameInfo.getPlayerById("Spieler 2").getGoalMap().getFieldList();
+                                                                for (Field i: h2) {%>
+                                                            
+                                                                    <li><img id="<%=i.getId() %>" src="<%=i.getSrc() %>" alt="<%=i.getAlt() %>" title="<%=i.getTitle() %>" /></li>
+                                                                
+                                                                <%}
+                                                            %>
+								<!--<li><img id='field61' src='img/field2.png' alt='Feld 61: Zielfeld Spieler 2' title='Feld 61: Zielfeld Spieler 2' /></li>
 								<li><img id='field62' src='img/field2.png' alt='Feld 62: Zielfeld Spieler 2' title='Feld 62: Zielfeld Spieler 2' /></li>
 								<li><img id='field63' src='img/field2.png' alt='Feld 63: Zielfeld Spieler 2' title='Feld 63: Zielfeld Spieler 2' /></li>
 								<li><img id='field64' src='img/field2.png' alt='Feld 64: Zielfeld Spieler 2' title='Feld 64: Zielfeld Spieler 2' /></li>
-							</ol>
+                                                                -->
+                                                        </ol>
 							<ol title="Zielhaus Spieler 3">		
 								<li><img id='field65' src='img/field3.png' alt='Feld 65: Zielfeld Spieler 3' title='Feld 65: Zielfeld Spieler 3' /></li>
 								<li><img id='field66' src='img/field3.png' alt='Feld 66: Zielfeld Spieler 3' title='Feld 66: Zielfeld Spieler 3' /></li>

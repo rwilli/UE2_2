@@ -44,7 +44,9 @@ public class GameServlet extends HttpServlet {
         player1.setActPosition(1);
         player1.setAlt("Feld 43: Startfeld Spieler 1: Spieler 1");
         player1.setCube(new Cube());
-        player1.setFieldList(initPlayerFields());
+        //player1.setFieldList(initPlayerFields());
+        player1.setHomeMap(initHomeFields(1));
+        player1.setGoalMap(initGoalFields(1));
         player1.setId("player1");
         player1.setImage("img/field1_player1.png");
         player1.setName("Super Mario");
@@ -54,7 +56,9 @@ public class GameServlet extends HttpServlet {
         player2.setActPosition(11);
         player2.setAlt("Feld 45: Startfeld Spieler 2: Spieler 2");
         player2.setCube(new Cube());
-        player2.setFieldList(initPlayerFields());
+        //player2.setFieldList(initPlayerFields());
+        player2.setHomeMap(initHomeFields(2));
+        player2.setGoalMap(initGoalFields(2));
         player2.setId("player2");
         player2.setImage("img/field2_player2.png");
         player2.setName("Computer");
@@ -281,6 +285,50 @@ public class GameServlet extends HttpServlet {
         return lst;
     }
     
+    private FieldMap initHomeFields(int playerId) {
+        FieldMap lst = new FieldMap();
+        int start = 0;
+        
+        if (playerId == 1)
+            start = 41;
+        if (playerId == 2)
+            start = 45;
+        
+        for (int i = start; i <= start + 4; i++) {
+            Field f = new Field();
+            f.setId("field" + i);
+            f.setSrc("img/field" + playerId + ".png");
+            //TODO richtige Werte
+            f.setAlt("");
+            f.setTitle("");
+            lst.getFieldMap().put(new Integer(i), f);
+        }
+        
+        return lst;
+    }
+    
+    private FieldMap initGoalFields(int playerId) {
+        FieldMap lst = new FieldMap();
+        int start = 0;
+        
+        if (playerId == 1)
+            start = 57;
+        if (playerId == 2)
+            start = 61;
+        
+        for (int i = start; i <= start + 4; i++) {
+            Field f = new Field();
+            f.setId("field" + i);
+            f.setSrc("img/field" + playerId + ".png");
+            //TODO richtige Werte
+            f.setAlt("");
+            f.setTitle("");
+            lst.getFieldMap().put(new Integer(i), f);
+        }
+        
+        return lst;
+    }
+    
     private void wuerfeln(Player player) {
         int number = generator.nextInt(6) + 1;
         player.getCube().setNumber(number);
@@ -327,13 +375,25 @@ public class GameServlet extends HttpServlet {
         player.setActPosition(old);
         player.setImage("img/field_" + player.getId() + ".png");
         
+        
         for (int i = 1; i <= 40; i++) {
             if (i == tmp) {
                 Field f = new Field();
                 f.setId("field" + i);
                 f.setAlt("");
                 f.setTitle("");
-                f.setSrc("img/field.png");
+                
+                if (i == 1)
+                    f.setSrc("img/field1.png");
+                else if (i == 11)
+                    f.setSrc("img/field2.png");
+                else if (i == 21)
+                    f.setSrc("img/field3.png");
+                else if (i == 31)
+                    f.setSrc("img/field4.png");
+                else
+                    f.setSrc("img/field.png");
+                
                 map.put(new Integer(i), f);
             }
             
@@ -342,7 +402,33 @@ public class GameServlet extends HttpServlet {
                 f.setId("field" + i);
                 f.setAlt("");
                 f.setTitle("");
-                f.setSrc(player.getImage());
+                
+                if (player.getId() == "player1") {
+                    if (i == 1)
+                        f.setSrc("img/field_yellow_player_yellow.png");
+                    else if (i == 11)
+                        f.setSrc("img/field_green_player_yellow.png");
+                    else if (i == 21)
+                        f.setSrc("img/field_red_player_yellow.png");
+                    else if (i == 31)
+                        f.setSrc("img/field_blue_player_yellow.png");
+                    else
+                        f.setSrc(player.getImage());
+                }
+                
+                if (player.getId() == "player2") {
+                    if (i == 1)
+                        f.setSrc("img/field_yellow_player_green.png");
+                    else if (i == 11)
+                        f.setSrc("img/field_green_player_green.png");
+                    else if (i == 21)
+                        f.setSrc("img/field_red_player_green.png");
+                    else if (i == 31)
+                        f.setSrc("img/field_blue_player_green.png");
+                    else
+                        f.setSrc(player.getImage());
+                }
+                
                 map.put(new Integer(i), f);
             }
         }

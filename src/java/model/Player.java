@@ -16,7 +16,9 @@ public class Player {
     private String alt = "";
     private int actPosition = 0;
     private Cube cube = null;
-    private FieldMap fieldList = null;
+    //private FieldMap fieldList = null;
+    private FieldMap homeMap = null;
+    private FieldMap goalMap = null;
     
     public Player() {
         
@@ -78,11 +80,27 @@ public class Player {
         return this.cube;
     }
     
-    public void setFieldList(FieldMap lst) {
+    /*public void setFieldList(FieldMap lst) {
         this.fieldList = lst;
     }
     
     public FieldMap getFieldList() {
         return this.fieldList;
+    }*/
+    
+    public void setHomeMap(FieldMap homeMap) {
+        this.homeMap = homeMap;
+    }
+    
+    public FieldMap getHomeMap() {
+        return this.homeMap;
+    }
+    
+    public void setGoalMap(FieldMap goalMap) {
+        this.goalMap = goalMap;
+    }
+    
+    public FieldMap getGoalMap() {
+        return this.goalMap;
     }
 }
