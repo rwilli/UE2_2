@@ -4,6 +4,10 @@
     Author     : rainer
 --%>
 
+<%@page import="java.util.Iterator"%>
+<%@page import="model.Field"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <?xml version="1.0" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -118,14 +122,14 @@ function callServlet()
 						<div class="fields">
 							<h3 class="accessibility">Spielfelder</h3>
 							<ol title="Spielfelder">
-                                                            <c:forEach items="${fieldList.getFieldList()}" var="item" >
-            
-        <c:out value='${item}' />
-
-       
-</c:forEach>
-								<li><img id='field1' src='img/field1.png' alt='Feld 1: erstes Feld Spieler 1' title='Feld 1: erstes Feld Spieler 1' /></li>									
-								
+                                                            <%
+                                                                List<Field> bla = fieldList.getFieldList();
+                                                                for (Field i: bla) {%>
+                                                            
+                                                                    <li><img id="<%=i.getId() %>" src="<%=i.getSrc() %>" alt="<%=i.getAlt() %>" title="<%=i.getTitle() %>" /></li>
+                                                                
+                                                                <%}
+                                                            %>
 							</ol>
 							<h3 class="accessibility">Starth&auml;user</h3>
 							<ol title="Starthaus Spieler 1">

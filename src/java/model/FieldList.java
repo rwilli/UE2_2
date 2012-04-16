@@ -18,8 +18,8 @@ public class FieldList {
         
     }
     
-    public void setFieldList(ArrayList lst) {
-        this.fieldList = new ArrayList<Field>();
+    public void setFieldList(List lst) {
+        this.fieldList = new ArrayList<Field>(lst);
     }
     
     public List<Field> getFieldList() {

@@ -9,22 +9,23 @@ package model;
  * @author rainer
  */
 public class Field {
-    private int id = 0;
+    //private int id = 0;
+    private String id = "";
     private String src = "";
     private String alt = "";
     private String title = "";
     private static int count = 0;
     
     public Field() {
-        ++count;
-        id = count;
+        //++count;
+        //id = count;
     }
     
-    public void setID(int id) {
+    public void setId(String id) {
         this.id = id;
     }
     
-    public int getID() {
+    public String getId() {
         return this.id;
     }
     

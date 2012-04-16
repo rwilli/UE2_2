@@ -6,9 +6,7 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,48 +17,65 @@ import model.Cube;
 import model.Field;
 import model.GameInformation;
 import model.Player;
+import model.FieldList;
 
 /**
  *
  * @author rainer
  */
 public class GameServlet extends HttpServlet {
-private GameInformation gameInfo;
-    private Player pl1, pl2;
-    private Cube wuerfel;
-    private Map<Integer, Player> fields;
+    private GameInformation gameInfo;
+    private Player player1;
+    private Player player2;
     private FieldList fieldList;
-    private Random generator = null;
+    private Random generator;
     private String computerCube = "";
 
     @Override
     public void init() throws ServletException {
         super.init();
         gameInfo = new GameInformation();
-        wuerfel = new Cube();
-        fields = new HashMap<Integer, Player>();
+        player1 = new Player();
+        player2 = new Player();
         fieldList = new FieldList();
-        this.generator = new Random();
+        generator = new Random();
         
-        pl1 = new Player();
-        pl1.setName("Super Mario");
-        pl1.setActPosition(43);
+        //TODO
+        //eigentlich ist die Startposition 43
+        //aber zum Testen wird das erste Feld genommen
+        player1.setActPosition(1);
+        player1.setAlt("Feld 43: Startfeld Spieler 1: Spieler 1");
+        player1.setCube(new Cube());
+        player1.setId("player1");
+        player1.setImage("img/field1_player1.png");
+        player1.setName("Super Mario");
+        player1.setTitle("Feld 43: Startfeld Spieler 1: Spieler 1");
         
-        pl2 = new Player();
-        pl2.setName("Computer");
-        pl2.setActPosition(45);
+        //eigentlich ist die Startposition 45
+        //aber zum Testen wird da 11 Feld genommen
+        player2.setActPosition(11);
+        player2.setAlt("Feld 45: Startfeld Spieler 2: Spieler 2");
+        player2.setCube(new Cube());
+        player2.setId("player2");
+        player2.setImage("img/field2_player2.png");
+        player2.setName("Computer");
+        player2.setTitle("Feld 45: Startfeld Spieler 2: Spieler 2");
         
-        gameInfo.addPlayer("Spieler 1", pl1);
-        gameInfo.addPlayer("Spieler 2", pl2);
+        gameInfo.addPlayer("Spieler 1", player1);
+        gameInfo.addPlayer("Spieler 2", player2);
         
         for (int i = 1; i <= 40; i++) {
             Field f = new Field();
+            f.setId("field" + i);
             f.setSrc("img/field.png");
-            this.fieldList.getFieldList().add(f);
-            fields.put(i, null);
+            //TODO richtige Werte
+            f.setAlt("");
+            f.setTitle("");
+            fieldList.getFieldList().add(f);
+            //fields.put(i, null);
         }
         
-        fields.put(1, pl1);
+        //fields.put(1, pl1);
         
         
     }
@@ -121,37 +136,43 @@ private GameInformation gameInfo;
             this.gameInfo.incrementRound();
             
             //player to cube
-            wuerfeln(this.pl1);
-            
-            session.setAttribute("wuerfel", pl1.getCube());
+            wuerfeln(this.player1);
+            move(this.player1);
+            session.setAttribute("wuerfel", player1.getCube());
+            session.setAttribute("fieldList", this.fieldList);
             
             // player got a 6
-            if (this.pl1.getCube().getNumber() == 6) {
+            if (this.player1.getCube().getNumber() == 6) {
+                move(this.player1);
                 // cube again
                 session.setAttribute("gameInfo", gameInfo);
+                session.setAttribute("fieldList", this.fieldList);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                 dispatcher.forward(request, response);
             } else {
                 // computer to cube
-                wuerfeln(this.pl2);
-                
+                wuerfeln(this.player2);
+                //move(this.player2);
+                //session.setAttribute("fieldList", this.fieldList);
                 // computer got a 6
-                 if (this.pl2.getCube().getNumber() == 6) {
+                 if (this.player2.getCube().getNumber() == 6) {
                     
                     this.computerCube = "6";
                     
-                    while (this.pl2.getCube().getNumber() == 6) {
-                        wuerfeln(this.pl2);
-                        computerCube += " - " + pl2.getCube().getNumber();
+                    while (this.player2.getCube().getNumber() == 6) {
+                        wuerfeln(this.player2);
+                        //move(this.player2);
+                
+                        computerCube += " - " + player2.getCube().getNumber();
                         gameInfo.setCubeComputer(computerCube);
                     }
                     session.setAttribute("gameInfo", gameInfo);
-            
+                    //session.setAttribute("fieldList", this.fieldList);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                     dispatcher.forward(request, response);
                 } else {
                     computerCube = "";
-                    gameInfo.setCubeComputer(computerCube + pl2.getCube().getNumber());
+                    gameInfo.setCubeComputer(computerCube + player2.getCube().getNumber());
                     session.setAttribute("gameInfo", gameInfo);
             
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
@@ -280,9 +301,34 @@ private GameInformation gameInfo;
         
         int newPosition = currentPosition + steps;
         
-        fields.remove(currentPosition);
-        fields.put(newPosition, player);
+        //fields.remove(currentPosition);
+        //fields.put(newPosition, player);
         
         return newPosition;
+    }
+    
+    private void move(Player player) {
+        // dirty
+        int old = player.getActPosition();
+        old += player.getCube().getNumber();
+        player.setActPosition(old);
+        player.setImage("img/field_" + player.getId() + ".png");
+        this.fieldList = new FieldList();
+        
+        for (int i = 1; i <= 40; i++) {
+            Field f = new Field();
+            f.setId("field" + i);
+            if (i == player.getActPosition())
+                f.setSrc(player.getImage());
+            else
+                f.setSrc("img/field.png");
+            //TODO richtige Werte
+            f.setAlt("");
+            f.setTitle("");
+            fieldList.getFieldList().add(f);
+            
+        }
+        
+        
     }
 }

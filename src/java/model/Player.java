@@ -9,6 +9,7 @@ package model;
  * @author rainer
  */
 public class Player {
+    private String id = "";
     private String name = "";
     private String image = "";
     private String title = "";
@@ -17,7 +18,15 @@ public class Player {
     private Cube cube = null;
     
     public Player() {
-        cube = new Cube();
+        
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public String getId() {
+        return this.id;
     }
     
     public void setName(String name) {
