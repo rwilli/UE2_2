@@ -19,6 +19,7 @@ public class GameInformation {
     private int sec = 0;
     private int min = 0;
     private String cubeComputer = "";
+    private boolean isFinished = false;
     
     public GameInformation() {
         players = new HashMap<String, Player>();
@@ -74,6 +75,14 @@ public class GameInformation {
     
     public String getCubeComputer() {
         return this.cubeComputer;
+    }
+    
+    public void setFinished(boolean b) {
+        this.isFinished = b;
+    }
+    
+    public boolean getFinished() {
+        return this.isFinished;
     }
 }
 

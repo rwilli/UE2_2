@@ -64,8 +64,9 @@ function callServlet()
 				</div>
 				<hr class="accessibility" />				
 				<div id="info_area">
-                                        <!-- TODO Place Restart Button -->
+                                    <% if (gameInfo.getFinished()) {%>   
                                         <input type="submit" value="Restart Game" accesskey="r"/>
+                                    <% } %>
                                         <h2>Spielinformationen</h2>
 					<table class="game_info" summary="Diese Tabelle zeigt Informationen zum aktuellen Spiel">
 						<tbody>
