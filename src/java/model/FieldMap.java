@@ -5,24 +5,30 @@
 package model;
 
 import java.util.ArrayList;
+import model.Field;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  *
  * @author rainer
  */
-public class FieldList {
-    private List<Field> fieldList = new ArrayList<Field>();
+public class FieldMap {
+    private HashMap<Integer, Field> fields = new HashMap<Integer, Field>();
     
-    public FieldList() {
+    public FieldMap() {
         
     }
     
-    public void setFieldList(List lst) {
-        this.fieldList = new ArrayList<Field>(lst);
+    //public void setFieldList(List lst) {
+    //    this.fieldList = new ArrayList<Field>(lst);
+    //}
+    
+    public HashMap getFieldMap() {
+        return this.fields;
     }
     
     public List<Field> getFieldList() {
-        return this.fieldList;
+        return new ArrayList<Field>(fields.values());
     }
 }

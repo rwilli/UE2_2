@@ -16,6 +16,7 @@ public class Player {
     private String alt = "";
     private int actPosition = 0;
     private Cube cube = null;
+    private FieldMap fieldList = null;
     
     public Player() {
         
@@ -75,5 +76,13 @@ public class Player {
     
     public Cube getCube() {
         return this.cube;
+    }
+    
+    public void setFieldList(FieldMap lst) {
+        this.fieldList = lst;
+    }
+    
+    public FieldMap getFieldList() {
+        return this.fieldList;
     }
 }

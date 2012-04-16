@@ -16,8 +16,8 @@
 <jsp:setProperty name="gameInfo" property="*"/>
 <jsp:useBean id="wuerfel" class="model.Cube" scope="session"/>
 <jsp:setProperty name="wuerfel" property="*"/>
-<jsp:useBean id="fieldList" class="model.FieldList" scope="session"/>
-<jsp:setProperty name="fieldList" property="*"/>
+<jsp:useBean id="fieldMap" class="model.FieldMap" scope="session"/>
+<jsp:setProperty name="fieldMap" property="*"/>
 <html xmlns="http://www.w3.org/1999/xhtml"  xml:lang="de" lang="de">
 	<head>
 		<title>EWA Mensch &auml;rgere Dich nicht :: Spiel 1</title>
@@ -123,7 +123,7 @@ function callServlet()
 							<h3 class="accessibility">Spielfelder</h3>
 							<ol title="Spielfelder">
                                                             <%
-                                                                List<Field> bla = fieldList.getFieldList();
+                                                                List<Field> bla = fieldMap.getFieldList();
                                                                 for (Field i: bla) {%>
                                                             
                                                                     <li><img id="<%=i.getId() %>" src="<%=i.getSrc() %>" alt="<%=i.getAlt() %>" title="<%=i.getTitle() %>" /></li>
