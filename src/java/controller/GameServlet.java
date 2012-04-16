@@ -30,6 +30,7 @@ public class GameServlet extends HttpServlet {
     private FieldMap fieldMap = null;
     private Random generator = null;
     private String computerCube = "";
+    private GameInformation gameinfo;
 
     @Override
     public void init() throws ServletException {
@@ -87,6 +88,15 @@ public class GameServlet extends HttpServlet {
         }  
     }
     
+     public void setGameInfo(GameInformation gameInfo){
+        //this.init();
+        gameInfo = new GameInformation();
+    }
+    public GameInformation getGameInfo(HttpSession session){
+        return (GameInformation)session.getAttribute("gameInfo");
+    }
+    
+    
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -101,6 +111,13 @@ public class GameServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        
+        HttpSession session = request.getSession(true);
+        
+        if (getGameInfo(session)== null){
+            setGameInfo(new GameInformation());
+        }
+        
         try {
             /*
              * TODO output your page here. You may use following sample code.
@@ -134,13 +151,23 @@ public class GameServlet extends HttpServlet {
         //processRequest(request, response);
         String action = request.getParameter("action");
         
+        /*HttpSession session = request.getSession(true);
+        if (getGameInfo(session)== null){
+            setGameInfo(new GameInformation());
+        }
+        */
         if (action == null) {
             return;
         }
         
-        if (action.equals("wuerfeln")) {                           
-            HttpSession session = request.getSession(true);
-            this.gameInfo.incrementRound();
+        if (action.equals("wuerfeln")) { 
+			response.setContentType("text/html;charset=UTF-8");
+            HttpSession session = request.getSession(false);
+			
+		//GameInformation	gameInfos = (GameInformation)request.getSession().getAttribute("gameInfo");
+		this.gameinfo = (GameInformation)request.getSession().getAttribute("gameInfo");
+		   this.gameInfo.incrementRound();
+            //this.gameInfo.getRound();
             
             //player to cube
             wuerfeln(this.player1);
