@@ -19,8 +19,7 @@ public class Player {
     //private FieldMap fieldList = null;
     private FieldMap homeMap = null;
     private FieldMap goalMap = null;
-    private int start = 0;
-    private int end = 0;
+    private int offset = 0;
     
     public Player() {
         
@@ -106,19 +105,11 @@ public class Player {
         return this.goalMap;
     }
     
-    public void setStart(int start) {
-        this.start = start;
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
     
-    public int getStart() {
-        return this.start;
-    }
-    
-    public void setEnd(int end) {
-        this.end = end;
-    }
-    
-    public int getEnd() {
-        return this.end;
+    public int getOffset() {
+        return this.offset;
     }
 }
