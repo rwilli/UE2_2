@@ -19,6 +19,7 @@ public class Player {
     //private FieldMap fieldList = null;
     private FieldMap homeMap = null;
     private FieldMap goalMap = null;
+    private int offset = 0;
     
     public Player() {
         
@@ -102,5 +103,13 @@ public class Player {
     
     public FieldMap getGoalMap() {
         return this.goalMap;
+    }
+    
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+    
+    public int getOffset() {
+        return this.offset;
     }
 }

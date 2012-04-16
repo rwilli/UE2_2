@@ -52,6 +52,7 @@ public class GameServlet extends HttpServlet {
         player1.setImage("img/field1_player1.png");
         player1.setName("Super Mario");
         player1.setTitle("Feld 43: Startfeld Spieler 1: Spieler 1");
+        player1.setOffset(0);
         
         //Start-Position
         player2.setActPosition(11);
@@ -64,6 +65,7 @@ public class GameServlet extends HttpServlet {
         player2.setImage("img/field2_player2.png");
         player2.setName("Computer");
         player2.setTitle("Feld 45: Startfeld Spieler 2: Spieler 2");
+        player2.setOffset(11);
         
         gameInfo.addPlayer("Spieler 1", player1);
         gameInfo.addPlayer("Spieler 2", player2);
@@ -177,10 +179,8 @@ public class GameServlet extends HttpServlet {
             
             // player got a 6
             if (this.player1.getCube().getNumber() == 6) {
-                move(this.player1);
                 // cube again
                 session.setAttribute("gameInfo", gameInfo);
-                session.setAttribute("fieldMap", this.fieldMap);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                 dispatcher.forward(request, response);
             } else {
@@ -399,65 +399,135 @@ public class GameServlet extends HttpServlet {
         
         old += player.getCube().getNumber();
         
-        player.setActPosition(old);
+        if (old <= 44)
+            player.setActPosition(old);
+        
         player.setImage("img/field_" + player.getId() + ".png");
-        
-        
-        for (int i = 1; i <= 40; i++) {
-            if (i == tmp) {
-                Field f = new Field();
-                f.setId("field" + i);
-                f.setAlt("");
-                f.setTitle("");
-                
-                if (i == 1)
-                    f.setSrc("img/field1.png");
-                else if (i == 11)
-                    f.setSrc("img/field2.png");
-                else if (i == 21)
-                    f.setSrc("img/field3.png");
-                else if (i == 31)
-                    f.setSrc("img/field4.png");
-                else
-                    f.setSrc("img/field.png");
-                
-                map.put(new Integer(i), f);
-            }
-            
-            if (i == player.getActPosition()) {
-                Field f = new Field();
-                f.setId("field" + i);
-                f.setAlt("");
-                f.setTitle("");
-                
-                if (player.getId() == "player1") {
-                    if (i == 1)
-                        f.setSrc("img/field_yellow_player_yellow.png");
-                    else if (i == 11)
-                        f.setSrc("img/field_green_player_yellow.png");
-                    else if (i == 21)
-                        f.setSrc("img/field_red_player_yellow.png");
-                    else if (i == 31)
-                        f.setSrc("img/field_blue_player_yellow.png");
-                    else
-                        f.setSrc(player.getImage());
-                }
-                
-                if (player.getId() == "player2") {
-                    if (i == 1)
-                        f.setSrc("img/field_yellow_player_green.png");
-                    else if (i == 11)
-                        f.setSrc("img/field_green_player_green.png");
-                    else if (i == 21)
-                        f.setSrc("img/field_red_player_green.png");
-                    else if (i == 31)
-                        f.setSrc("img/field_blue_player_green.png");
-                    else
-                        f.setSrc(player.getImage());
-                }
-                
-                map.put(new Integer(i), f);
+
+        Field f = new Field();
+        f.setId("field" + tmp);
+        f.setAlt("");
+        f.setTitle("");
+
+        if (tmp == 1) {
+            f.setSrc("img/field1.png");
+        } else if (tmp == 11) {
+            f.setSrc("img/field2.png");
+        } else if (tmp == 21) {
+            f.setSrc("img/field3.png");
+        } else if (tmp == 31) {
+            f.setSrc("img/field4.png");
+        } else {
+            f.setSrc("img/field.png");
+        }
+
+        map.put(new Integer(tmp), f);
+
+        f = new Field();
+        f.setId("field" + player.getActPosition());
+        f.setAlt("");
+        f.setTitle("");
+
+        if (player.getId() == "player1") {
+            if (player.getActPosition() == 1) {
+                f.setSrc("img/field_yellow_player_yellow.png");
+            } else if (player.getActPosition() == 11) {
+                f.setSrc("img/field_green_player_yellow.png");
+            } else if (player.getActPosition() == 21) {
+                f.setSrc("img/field_red_player_yellow.png");
+            } else if (player.getActPosition() == 31) {
+                f.setSrc("img/field_blue_player_yellow.png");
+            } else {
+                f.setSrc(player.getImage());
             }
         }
+
+        if (player.getId() == "player2") {
+            if (player.getActPosition() == 1) {
+                f.setSrc("img/field_yellow_player_green.png");
+            } else if (player.getActPosition() == 11) {
+                f.setSrc("img/field_green_player_green.png");
+            } else if (player.getActPosition() == 21) {
+                f.setSrc("img/field_red_player_green.png");
+            } else if (player.getActPosition() == 31) {
+                f.setSrc("img/field_blue_player_green.png");
+            } else {
+                f.setSrc(player.getImage());
+            }
+        }
+
+        map.put(new Integer(player.getActPosition()), f);
+        
+        //if (player.getActPosition() <= 40) {
+            /*for (int i = 1; i <= 40; i++) {
+                if (i == tmp) {
+                    Field f = new Field();
+                    f.setId("field" + i);
+                    f.setAlt("");
+                    f.setTitle("");
+
+                    if (i == 1)
+                        f.setSrc("img/field1.png");
+                    else if (i == 11)
+                        f.setSrc("img/field2.png");
+                    else if (i == 21)
+                        f.setSrc("img/field3.png");
+                    else if (i == 31)
+                        f.setSrc("img/field4.png");
+                    else
+                        f.setSrc("img/field.png");
+
+                    map.put(new Integer(i), f);
+                }
+
+                if (i == player.getActPosition()) {
+                    Field f = new Field();
+                    f.setId("field" + i);
+                    f.setAlt("");
+                    f.setTitle("");
+
+                    if (player.getId() == "player1") {
+                        if (i == 1)
+                            f.setSrc("img/field_yellow_player_yellow.png");
+                        else if (i == 11)
+                            f.setSrc("img/field_green_player_yellow.png");
+                        else if (i == 21)
+                            f.setSrc("img/field_red_player_yellow.png");
+                        else if (i == 31)
+                            f.setSrc("img/field_blue_player_yellow.png");
+                        else
+                            f.setSrc(player.getImage());
+                    }
+
+                    if (player.getId() == "player2") {
+                        if (i == 1)
+                            f.setSrc("img/field_yellow_player_green.png");
+                        else if (i == 11)
+                            f.setSrc("img/field_green_player_green.png");
+                        else if (i == 21)
+                            f.setSrc("img/field_red_player_green.png");
+                        else if (i == 31)
+                            f.setSrc("img/field_blue_player_green.png");
+                        else
+                            f.setSrc(player.getImage());
+                    }
+
+                    map.put(new Integer(i), f);
+                }
+            }
+        /*} else {
+            Field f = new Field();
+            
+            if (player.getId() == "player1") {
+                f.setId("field" + 57);
+                f.setAlt("");
+                f.setTitle("");
+                f.setSrc("img/field_yellow_player_yellow.png");
+                player.getGoalMap().getFieldMap().put(new Integer(57), f);
+            }
+            
+            if (player.getId() == "player2") 
+            
+        }*/
     }
 }
