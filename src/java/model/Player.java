@@ -24,6 +24,9 @@ public class Player {
     // Aktuelle Position
     private int position = 0;
     
+    // Relative Positon
+    private int relativePos = 1;
+    
     // Würfel des Spielers
     private Cube cube = null;
     
@@ -89,6 +92,14 @@ public class Player {
     
     public int getActPosition() {
         return this.position;
+    }
+    
+    public void setRelativePosition(int pos) {
+        this.relativePos = pos;
+    }
+    
+    public int getRelativePosition() {
+        return this.relativePos;
     }
     
     public void setCube(Cube cube) {

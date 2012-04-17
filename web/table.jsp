@@ -116,7 +116,11 @@ function callServlet()
 					<hr class="accessibility" />
 					<h2 class="accessibility">W&uuml;rfel</h2>
 					<span title='aktueller Spieler'>Super Mario</span>
-                                        <img name="wuerfel" title="<%= wuerfel.getTitle() %>" src="<%= wuerfel.getSrc() %>" alt="<%= wuerfel.getAlt() %>" onclick="callServlet()"/>
+                                        <% if (!gameInfo.getFinished()) { %>
+                                            <img name="wuerfel" title="<%= wuerfel.getTitle() %>" src="<%= wuerfel.getSrc() %>" alt="<%= wuerfel.getAlt() %>" onclick="callServlet()"/>
+                                        <% } else {%>
+                                            <img name="wuerfel" title="<%= wuerfel.getTitle() %>" src="<%= wuerfel.getSrc() %>" alt="<%= wuerfel.getAlt() %>" />
+                                            <% } %>
 				</div>
 				<div id="play_area">
 					<hr class="accessibility" />

@@ -490,12 +490,15 @@ public class GameServlet extends HttpServlet {
         int old = player.getActPosition();
         int tmp = player.getActPosition();
         
-        if ((old + player.getCube().getNumber()) > 40) {
+        int tmp2 = player.getRelativePosition();
+        player.setRelativePosition(tmp2 + player.getCube().getNumber());
+        
+        if (player.getRelativePosition() >= 40) {
             //Spieler erreicht vl das Ziel
             Field f = new Field();
             
             if ("player1".equals(player.getId())) {
-                if ((old + player.getCube().getNumber() + 16) <= 60) {
+                if (player.getRelativePosition() > 40 && player.getRelativePosition() < 45) {
                     // altes Feld löschen
                     Field ff = new Field();
                     ff.setId("field" + old);
@@ -505,7 +508,8 @@ public class GameServlet extends HttpServlet {
                     map.put(new Integer(tmp), ff);
                     
                     // Zielfeld setzen
-                    player.setActPosition(old + player.getCube().getNumber() + 16);
+                    player.setActPosition(player.getRelativePosition() + 16);
+                    f = new Field();
                     f.setId("field" + player.getActPosition());
                     f.setAlt("");
                     f.setTitle("");
@@ -517,85 +521,111 @@ public class GameServlet extends HttpServlet {
                 } else {
                     //bleibt vor dem Ziel stehen
                     player.setActPosition(40);
+                    f = new Field();
                     f.setId("field" + 40);
                     f.setAlt("");
                     f.setTitle("");
-                    f.setSrc("img/field_yellow_player_yellow.png");
+                    f.setSrc("img/field_player_yellow.png");
                     player.getGoalMap().getFieldMap().put(new Integer(40), f);
                 }
                 
             }
             
-            if ("player2".equals(player.getId())) {
-                //hardcoded 61
-                f.setId("field" + 61);
-                f.setAlt("");
-                f.setTitle("");
-                f.setSrc("img/field_green_player_green.png");
-                player.getGoalMap().getFieldMap().put(new Integer(61), f);
-            }
+            /*if ("player2".equals(player.getId())) {
+                if (player.getRelativePosition() > 40 && player.getRelativePosition() < 45) {
+                    // altes Feld löschen
+                    Field ff = new Field();
+                    ff.setId("field" + old);
+                    ff.setAlt("");
+                    ff.setTitle("");
+                    ff.setSrc("img/field.png");
+                    map.put(new Integer(tmp), ff);
+                    
+                    // Zielfeld setzen
+                    player.setActPosition(player.getRelativePosition() + 20);
+                    f = new Field();
+                    f.setId("field" + player.getActPosition());
+                    f.setAlt("");
+                    f.setTitle("");
+                    f.setSrc("img/field_green_player_green.png");
+                    player.getGoalMap().getFieldMap().put(new Integer(player.getActPosition()), f);
+                    
+                    // Spiel auf beendet setzen
+                    this.gameInfo.setFinished(true);
+                } else {
+                    //bleibt vor dem Ziel stehen
+                    player.setActPosition(10);
+                    f = new Field();
+                    f.setId("field" + 10);
+                    f.setAlt("");
+                    f.setTitle("");
+                    f.setSrc("img/field_player_green.png");
+                    player.getGoalMap().getFieldMap().put(new Integer(10), f);
+                }
+            }*/
         } else {
         
-            int modulo = ((old + player.getCube().getNumber()) % 40);
-            old = (modulo != 0) ? modulo : 40;
+        
+        int modulo = ((old + player.getCube().getNumber()) % 40);
+        old = (modulo != 0) ? modulo : 40;
 
-            player.setActPosition(old);
+        player.setActPosition(old);
 
-            player.setSrc("img/field_" + player.getId() + ".png");
+        player.setSrc("img/field_" + player.getId() + ".png");
 
-            Field f = new Field();
-            f.setId("field" + tmp);
-            f.setAlt("");
-            f.setTitle("");
+        Field f = new Field();
+        f.setId("field" + tmp);
+        f.setAlt("");
+        f.setTitle("");
 
-            if (tmp == 1) {
-                f.setSrc("img/field1.png");
-            } else if (tmp == 11) {
-                f.setSrc("img/field2.png");
-            } else if (tmp == 21) {
-                f.setSrc("img/field3.png");
-            } else if (tmp == 31) {
-                f.setSrc("img/field4.png");
+        if (tmp == 1) {
+            f.setSrc("img/field1.png");
+        } else if (tmp == 11) {
+            f.setSrc("img/field2.png");
+        } else if (tmp == 21) {
+            f.setSrc("img/field3.png");
+        } else if (tmp == 31) {
+            f.setSrc("img/field4.png");
+        } else {
+            f.setSrc("img/field.png");
+        }
+
+        map.put(new Integer(tmp), f);
+
+        f = new Field();
+        f.setId("field" + player.getActPosition());
+        f.setAlt("");
+        f.setTitle("");
+
+        if (player.getId() == "player1") {
+            if (player.getActPosition() == 1) {
+                f.setSrc("img/field_yellow_player_yellow.png");
+            } else if (player.getActPosition() == 11) {
+                f.setSrc("img/field_green_player_yellow.png");
+            } else if (player.getActPosition() == 21) {
+                f.setSrc("img/field_red_player_yellow.png");
+            } else if (player.getActPosition() == 31) {
+                f.setSrc("img/field_blue_player_yellow.png");
             } else {
-                f.setSrc("img/field.png");
+                f.setSrc(player.getSrc());
             }
+        }
 
-            map.put(new Integer(tmp), f);
-
-            f = new Field();
-            f.setId("field" + player.getActPosition());
-            f.setAlt("");
-            f.setTitle("");
-
-            if (player.getId() == "player1") {
-                if (player.getActPosition() == 1) {
-                    f.setSrc("img/field_yellow_player_yellow.png");
-                } else if (player.getActPosition() == 11) {
-                    f.setSrc("img/field_green_player_yellow.png");
-                } else if (player.getActPosition() == 21) {
-                    f.setSrc("img/field_red_player_yellow.png");
-                } else if (player.getActPosition() == 31) {
-                    f.setSrc("img/field_blue_player_yellow.png");
-                } else {
-                    f.setSrc(player.getSrc());
-                }
+        if (player.getId() == "player2") {
+            if (player.getActPosition() == 1) {
+                f.setSrc("img/field_yellow_player_green.png");
+            } else if (player.getActPosition() == 11) {
+                f.setSrc("img/field_green_player_green.png");
+            } else if (player.getActPosition() == 21) {
+                f.setSrc("img/field_red_player_green.png");
+            } else if (player.getActPosition() == 31) {
+                f.setSrc("img/field_blue_player_green.png");
+            } else {
+                f.setSrc(player.getSrc());
             }
+        }
 
-            if (player.getId() == "player2") {
-                if (player.getActPosition() == 1) {
-                    f.setSrc("img/field_yellow_player_green.png");
-                } else if (player.getActPosition() == 11) {
-                    f.setSrc("img/field_green_player_green.png");
-                } else if (player.getActPosition() == 21) {
-                    f.setSrc("img/field_red_player_green.png");
-                } else if (player.getActPosition() == 31) {
-                    f.setSrc("img/field_blue_player_green.png");
-                } else {
-                    f.setSrc(player.getSrc());
-                }
-            }
-
-            map.put(new Integer(player.getActPosition()), f);
+        map.put(new Integer(player.getActPosition()), f);
         }
     }
     
