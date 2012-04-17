@@ -120,6 +120,7 @@ public class GameServlet extends HttpServlet {
                 
                 // Spieler2 würfelt
                 wuerfeln(this.player2);
+                gameInfo.setCubeComputer("" + this.player2.getCube().getNumber());
                 
                 // Spieler2 würfelt eine 6
                 if (this.player2.getCube().getNumber() == 6) {
@@ -139,7 +140,7 @@ public class GameServlet extends HttpServlet {
                         f.setTitle("");
                         f.setSrc("img/field_green_player_green.png");
                         this.fieldMap.getFieldMap().put(new Integer(11), f);
-                    
+                        
                         // Spieler2 Starthaus leeren
                         Field ff = new Field();
                         ff.setId("field" + 45);
@@ -147,6 +148,15 @@ public class GameServlet extends HttpServlet {
                         ff.setTitle("");
                         ff.setSrc("img/field2.png");
                         this.player2.getHomeMap().getFieldMap().put(new Integer(45), ff);
+                        
+                        // Spieler2 darf noch einmal würfeln
+                        while (this.player2.getCube().getNumber() == 6) {
+                            wuerfeln(this.player2);
+                            move(this.player2);
+                
+                            computerCube += " - " + player2.getCube().getNumber();
+                            gameInfo.setCubeComputer(computerCube);
+                        }
                     
                         session.setAttribute("fieldMap", this.fieldMap);
                         session.setAttribute("gameInfo", gameInfo);
@@ -158,14 +168,16 @@ public class GameServlet extends HttpServlet {
                         
                         // Spieler2 darf nocheinmal würfeln
                         this.wuerfeln(player2);
-                        while (this.player2.getCube().getNumber() == 6) {
-                        wuerfeln(this.player2);
-                        move(this.player2);
-                
-                        computerCube += " - " + player2.getCube().getNumber();
-                        gameInfo.setCubeComputer(computerCube);
-                    }
                         
+                        while (this.player2.getCube().getNumber() == 6) {
+                            wuerfeln(this.player2);
+                            move(this.player2);
+                
+                            computerCube += " - " + player2.getCube().getNumber();
+                            gameInfo.setCubeComputer(computerCube);
+                        }
+                        
+                        session.setAttribute("fieldMap", this.fieldMap);
                         session.setAttribute("gameInfo", gameInfo);
                         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                         dispatcher.forward(request, response);
