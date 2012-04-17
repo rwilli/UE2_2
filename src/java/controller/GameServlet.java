@@ -79,11 +79,12 @@ public class GameServlet extends HttpServlet {
                     this.fieldMap.getFieldMap().put(new Integer(1), f);
                     
                     // Spieler1 Starthaus leeren
-                    /*f.setId("field" + 41);
-                    f.setAlt("");
-                    f.setTitle("");
-                    f.setSrc("img/field1.png");
-                    this.player1.getHomeMap().getFieldMap().put(new Integer(41), f);*/
+                    Field ff = new Field();
+                    ff.setId("field" + 41);
+                    ff.setAlt("");
+                    ff.setTitle("");
+                    ff.setSrc("img/field1.png");
+                    this.player1.getHomeMap().getFieldMap().put(new Integer(41), ff);
                     
                     session.setAttribute("wuerfel", player1.getCube());
                     session.setAttribute("fieldMap", this.fieldMap);
@@ -416,11 +417,12 @@ public class GameServlet extends HttpServlet {
             if ("player1".equals(player.getId())) {
                 if ((old + player.getCube().getNumber() + 16) <= 60) {
                     // altes Feld löschen
-                    f.setId("field" + old);
-                    f.setAlt("");
-                    f.setTitle("");
-                    f.setSrc("img/field.png");
-                    map.put(new Integer(tmp), f);
+                    Field ff = new Field();
+                    ff.setId("field" + old);
+                    ff.setAlt("");
+                    ff.setTitle("");
+                    ff.setSrc("img/field.png");
+                    map.put(new Integer(tmp), ff);
                     
                     // Zielfeld setzen
                     player.setActPosition(old + player.getCube().getNumber() + 16);
