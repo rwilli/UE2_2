@@ -94,6 +94,9 @@ public class GameServlet extends HttpServlet {
                 } else {
                     // Spieler1 ist bereits im Feld
                     move(this.player1);
+                    
+                    chuckPlayer(this.player1);
+                    
                     // Spieler1 darf nocheinmal würfeln
                     session.setAttribute("gameInfo", gameInfo);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
@@ -112,7 +115,7 @@ public class GameServlet extends HttpServlet {
                 } else {
                     // Spieler1 ist bereits im Feld
                     move(this.player1);
-                    
+                    chuckPlayer(this.player1);
                     session.setAttribute("fieldMap", this.fieldMap);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                     dispatcher.forward(request, response);
@@ -153,7 +156,7 @@ public class GameServlet extends HttpServlet {
                         while (this.player2.getCube().getNumber() == 6) {
                             wuerfeln(this.player2);
                             move(this.player2);
-                
+                            chuckPlayer(this.player1);
                             computerCube += " - " + player2.getCube().getNumber();
                             gameInfo.setCubeComputer(computerCube);
                         }
@@ -165,14 +168,14 @@ public class GameServlet extends HttpServlet {
                     } else {
                         // Spieler2 ist bereits im Feld
                         move(this.player2);
-                        
+                        chuckPlayer(this.player2);
                         // Spieler2 darf nocheinmal würfeln
                         this.wuerfeln(player2);
                         
                         while (this.player2.getCube().getNumber() == 6) {
                             wuerfeln(this.player2);
                             move(this.player2);
-                
+                            chuckPlayer(this.player2);
                             computerCube += " - " + player2.getCube().getNumber();
                             gameInfo.setCubeComputer(computerCube);
                         }
@@ -195,7 +198,7 @@ public class GameServlet extends HttpServlet {
                     } else {
                         // Spieler2 ist bereits im Feld
                         move(this.player2);
-                    
+                        chuckPlayer(this.player2);
                         session.setAttribute("fieldMap", this.fieldMap);
                         session.setAttribute("gameInfo", gameInfo);
                         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
@@ -222,83 +225,7 @@ public class GameServlet extends HttpServlet {
         // palce restart game here
         HttpSession session = request.getSession(true);         
         
-        gameInfo = new GameInformation();
-        player1 = new Player();
-        player2 = new Player();
-        fieldMap = new FieldMap();
-        generator = new Random();
-        
-        //Start-Position
-        player1.setActPosition(1);
-        player1.setAlt("Feld 43: Startfeld Spieler 1: Spieler 1");
-        player1.setCube(new Cube());
-        //player1.setFieldList(initPlayerFields());
-        player1.setHomeMap(initHomeFields(1));
-        player1.setGoalMap(initGoalFields(1));
-        player1.setId("player1");
-        player1.setSrc("img/field1_player1.png");
-        player1.setName("Super Mario");
-        player1.setTitle("Feld 43: Startfeld Spieler 1: Spieler 1");
-        player1.setStart(1);
-        player1.setStop(40);
-        
-        //Start-Position
-        player2.setActPosition(11);
-        player2.setAlt("Feld 45: Startfeld Spieler 2: Spieler 2");
-        player2.setCube(new Cube());
-        //player2.setFieldList(initPlayerFields());
-        player2.setHomeMap(initHomeFields(2));
-        player2.setGoalMap(initGoalFields(2));
-        player2.setId("player2");
-        player2.setSrc("img/field2_player2.png");
-        player2.setName("Computer");
-        player2.setTitle("Feld 45: Startfeld Spieler 2: Spieler 2");
-        player2.setStart(11);
-        player2.setStop(10);
-        
-        gameInfo.addPlayer("Spieler 1", player1);
-        gameInfo.addPlayer("Spieler 2", player2);
-        this.computerCube = "";
-        
-        for (int i = 1; i <= 40; i++) {
-            Field f = new Field();
-            f.setId("field" + i);
-            if (i == 1)
-                f.setSrc("img/field1.png");
-            else if (i == 11)
-                f.setSrc("img/field2.png");
-            else if (i == 21)
-                f.setSrc("img/field3.png");
-            else if (i == 31)
-                f.setSrc("img/field4.png");
-            else
-                f.setSrc("img/field.png");
-            //TODO richtige Werte
-            f.setAlt("");
-            f.setTitle("");
-            fieldMap.getFieldMap().put(new Integer(i), f);
-        }  
-        
-        player1.getCube().setTitle("W&uuml;rfel Zahl 1");
-        player1.getCube().setSrc("img/wuerfel1.png");
-        player1.getCube().setAlt("W&uuml;rfel Zahl 1");
-        
-        Field f;
-        f = new Field();
-        f.setId("field" + 43);
-        f.setSrc("img/field_yellow_player_yellow.png");
-        f.setAlt("");
-        f.setTitle("");
-        
-        player1.getHomeMap().getFieldMap().put(new Integer(43), f);
-        
-        f = new Field();
-        f.setId("field" + 47);
-        f.setSrc("img/field_green_player_green.png");
-        f.setAlt("");
-        f.setTitle("");
-        
-        player2.getHomeMap().getFieldMap().put(new Integer(47), f);
+        this.restartGame();
         
         session.setAttribute("wuerfel", player1.getCube());
         session.setAttribute("fieldMap", this.fieldMap);
@@ -493,8 +420,8 @@ public class GameServlet extends HttpServlet {
         int tmp2 = player.getRelativePosition();
         player.setRelativePosition(tmp2 + player.getCube().getNumber());
         
+        // Spieler erreicht vl das Ziel
         if (player.getRelativePosition() >= 40) {
-            //Spieler erreicht vl das Ziel
             Field f = new Field();
             
             if ("player1".equals(player.getId())) {
@@ -531,7 +458,7 @@ public class GameServlet extends HttpServlet {
                 
             }
             
-            /*if ("player2".equals(player.getId())) {
+            if ("player2".equals(player.getId())) {
                 if (player.getRelativePosition() > 40 && player.getRelativePosition() < 45) {
                     // altes Feld löschen
                     Field ff = new Field();
@@ -562,74 +489,116 @@ public class GameServlet extends HttpServlet {
                     f.setSrc("img/field_player_green.png");
                     player.getGoalMap().getFieldMap().put(new Integer(10), f);
                 }
-            }*/
+            }
         } else {
-        
-        
-        int modulo = ((old + player.getCube().getNumber()) % 40);
-        old = (modulo != 0) ? modulo : 40;
+            // Spieler bewegen
+            int modulo = ((old + player.getCube().getNumber()) % 40);
+            old = (modulo != 0) ? modulo : 40;
 
-        player.setActPosition(old);
+            player.setActPosition(old);
 
-        player.setSrc("img/field_" + player.getId() + ".png");
+            player.setSrc("img/field_" + player.getId() + ".png");
 
-        Field f = new Field();
-        f.setId("field" + tmp);
-        f.setAlt("");
-        f.setTitle("");
+            Field f = new Field();
+            f.setId("field" + tmp);
+            f.setAlt("");
+            f.setTitle("");
 
-        if (tmp == 1) {
-            f.setSrc("img/field1.png");
-        } else if (tmp == 11) {
-            f.setSrc("img/field2.png");
-        } else if (tmp == 21) {
-            f.setSrc("img/field3.png");
-        } else if (tmp == 31) {
-            f.setSrc("img/field4.png");
-        } else {
-            f.setSrc("img/field.png");
+            if (tmp == 1) {
+                f.setSrc("img/field1.png");
+            } else if (tmp == 11) {
+                f.setSrc("img/field2.png");
+            } else if (tmp == 21) {
+                f.setSrc("img/field3.png");
+            } else if (tmp == 31) {
+                f.setSrc("img/field4.png");
+            } else {
+                f.setSrc("img/field.png");
+            }
+
+            map.put(new Integer(tmp), f);
+
+            f = new Field();
+            f.setId("field" + player.getActPosition());
+            f.setAlt("");
+            f.setTitle("");
+
+            if (player.getId() == "player1") {
+                if (player.getActPosition() == 1) {
+                    f.setSrc("img/field_yellow_player_yellow.png");
+                } else if (player.getActPosition() == 11) {
+                    f.setSrc("img/field_green_player_yellow.png");
+                } else if (player.getActPosition() == 21) {
+                    f.setSrc("img/field_red_player_yellow.png");
+                } else if (player.getActPosition() == 31) {
+                    f.setSrc("img/field_blue_player_yellow.png");
+                } else {
+                    f.setSrc(player.getSrc());
+                }
+            }
+
+            if (player.getId() == "player2") {
+                if (player.getActPosition() == 1) {
+                    f.setSrc("img/field_yellow_player_green.png");
+                } else if (player.getActPosition() == 11) {
+                    f.setSrc("img/field_green_player_green.png");
+                } else if (player.getActPosition() == 21) {
+                    f.setSrc("img/field_red_player_green.png");
+                } else if (player.getActPosition() == 31) {
+                    f.setSrc("img/field_blue_player_green.png");
+                } else {
+                    f.setSrc(player.getSrc());
+                }
+            }
+
+            map.put(new Integer(player.getActPosition()), f);
         }
-
-        map.put(new Integer(tmp), f);
-
-        f = new Field();
-        f.setId("field" + player.getActPosition());
-        f.setAlt("");
-        f.setTitle("");
-
+    }
+    
+    private void chuckPlayer(Player player) {
         if (player.getId() == "player1") {
-            if (player.getActPosition() == 1) {
-                f.setSrc("img/field_yellow_player_yellow.png");
-            } else if (player.getActPosition() == 11) {
-                f.setSrc("img/field_green_player_yellow.png");
-            } else if (player.getActPosition() == 21) {
-                f.setSrc("img/field_red_player_yellow.png");
-            } else if (player.getActPosition() == 31) {
-                f.setSrc("img/field_blue_player_yellow.png");
-            } else {
-                f.setSrc(player.getSrc());
-            }
-        }
+            // Wenn Spieler1 im Spiel
+            // schmeißt Spieler2
+            if (player.getRunning() && player2.getRunning()) {
+                if (player.getActPosition() == player2.getRelativePosition()) {
+                    // altes Feld löschen
+                    
+                    
+                    // Spieler ins Heimfeld setzen
+                    player2.setActPosition(45);
+                    player2.setRelativePosition(1);
+                    player2.setRunning(false);
+                    Field f = new Field();
+                    f.setId("field" + player.getActPosition());
+                    f.setAlt("");
+                    f.setTitle("");
+                    f.setSrc("img/field_green_player_green.png");
 
-        if (player.getId() == "player2") {
-            if (player.getActPosition() == 1) {
-                f.setSrc("img/field_yellow_player_green.png");
-            } else if (player.getActPosition() == 11) {
-                f.setSrc("img/field_green_player_green.png");
-            } else if (player.getActPosition() == 21) {
-                f.setSrc("img/field_red_player_green.png");
-            } else if (player.getActPosition() == 31) {
-                f.setSrc("img/field_blue_player_green.png");
-            } else {
-                f.setSrc(player.getSrc());
+                    player2.getHomeMap().getFieldMap().put(new Integer(45), f);
+                }
             }
-        }
-
-        map.put(new Integer(player.getActPosition()), f);
+        } else {
+            // Spieler2 schmeißt Spieler1
+            if (player.getRunning() && player1.getRunning()) {
+                if (player.getActPosition() == player1.getRelativePosition()) {
+                    player1.setActPosition(41);
+                    player1.setRelativePosition(1);
+                    player1.setRunning(false);
+                    Field f = new Field();
+                    f.setId("field" + player.getActPosition());
+                    f.setAlt("");
+                    f.setTitle("");
+                    f.setSrc("img/field_yellow_player_yellow.png");
+                    player1.getHomeMap().getFieldMap().put(new Integer(41), f);
+                }
+            }
         }
     }
     
     private void restartGame() {
-        
+        this.initGame();
+        player1.getCube().setTitle("W&uuml;rfel Zahl 1");
+        player1.getCube().setSrc("img/wuerfel1.png");
+        player1.getCube().setAlt("W&uuml;rfel Zahl 1");
     }
 }
