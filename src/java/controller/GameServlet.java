@@ -123,6 +123,17 @@ public class GameServlet extends HttpServlet {
                 
                 // Spieler2 würfelt eine 6
                 if (this.player2.getCube().getNumber() == 6) {
+                    
+                    this.computerCube = "6";
+                    
+                    /*while (this.player2.getCube().getNumber() == 6) {
+                        wuerfeln(this.player2);
+                        move(this.player2);
+                
+                        computerCube += " - " + player2.getCube().getNumber();
+                        gameInfo.setCubeComputer(computerCube);
+                    }*/
+                    
                     // Spieler2 ist noch im Starthaus
                     if (this.player2.getRunning() == false) {
                         // Spieler2 auf erstes Feld setzen
@@ -152,12 +163,15 @@ public class GameServlet extends HttpServlet {
                         // Spieler2 ist bereits im Feld
                         move(this.player2);
                         // Spieler2 darf nocheinmal würfeln
+                        this.wuerfeln(player2);
+                        move(this.player2);
                         session.setAttribute("gameInfo", gameInfo);
                         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                         dispatcher.forward(request, response);
                     }
                 } else {
                     // Spieler2 würfelt keine 6
+                    this.computerCube = "";
                     // Überprüfen ob noch im Starthaus
                     if (this.player2.getRunning() == false) {
                         // Spieler2 ist im Starthaus
@@ -170,6 +184,7 @@ public class GameServlet extends HttpServlet {
                         move(this.player2);
                     
                         session.setAttribute("fieldMap", this.fieldMap);
+                        session.setAttribute("gameInfo", gameInfo);
                         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                         dispatcher.forward(request, response);
                     }
