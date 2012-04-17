@@ -26,6 +26,9 @@ public class GameInformation {
     // Rundenzeit Minuten
     private int min = 0;
     
+    // Führender
+    private String leader = "";
+    
     // Würfelergebnisse des Computers
     private String cubeComputer = "";
     
@@ -94,6 +97,14 @@ public class GameInformation {
     
     public boolean getFinished() {
         return this.isFinished;
+    }
+    
+    public void setLeader(String leader) {
+        this.leader = leader;
+    }
+    
+    public String getLeader() {
+        return this.leader;
     }
 }
 

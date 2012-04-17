@@ -96,7 +96,7 @@ public class GameServlet extends HttpServlet {
                     move(this.player1);
                     
                     chuckPlayer(this.player1);
-                    
+                    checkLeader();
                     // Spieler1 darf nocheinmal würfeln
                     session.setAttribute("gameInfo", gameInfo);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
@@ -116,6 +116,7 @@ public class GameServlet extends HttpServlet {
                     // Spieler1 ist bereits im Feld
                     move(this.player1);
                     chuckPlayer(this.player1);
+                    checkLeader();
                     session.setAttribute("fieldMap", this.fieldMap);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
                     dispatcher.forward(request, response);
@@ -157,6 +158,7 @@ public class GameServlet extends HttpServlet {
                             wuerfeln(this.player2);
                             move(this.player2);
                             chuckPlayer(this.player1);
+                            checkLeader();
                             computerCube += " - " + player2.getCube().getNumber();
                             gameInfo.setCubeComputer(computerCube);
                         }
@@ -169,6 +171,7 @@ public class GameServlet extends HttpServlet {
                         // Spieler2 ist bereits im Feld
                         move(this.player2);
                         chuckPlayer(this.player2);
+                        checkLeader();
                         // Spieler2 darf nocheinmal würfeln
                         this.wuerfeln(player2);
                         
@@ -176,6 +179,7 @@ public class GameServlet extends HttpServlet {
                             wuerfeln(this.player2);
                             move(this.player2);
                             chuckPlayer(this.player2);
+                            checkLeader();
                             computerCube += " - " + player2.getCube().getNumber();
                             gameInfo.setCubeComputer(computerCube);
                         }
@@ -199,6 +203,7 @@ public class GameServlet extends HttpServlet {
                         // Spieler2 ist bereits im Feld
                         move(this.player2);
                         chuckPlayer(this.player2);
+                        checkLeader();
                         session.setAttribute("fieldMap", this.fieldMap);
                         session.setAttribute("gameInfo", gameInfo);
                         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
@@ -593,6 +598,13 @@ public class GameServlet extends HttpServlet {
                 }
             }
         }
+    }
+    
+    private void checkLeader() {
+        if (player1.getRelativePosition() > player2.getActPosition())
+            this.gameInfo.setLeader("Spieler 1");
+        else
+            this.gameInfo.setLeader("Spieler 2");
     }
     
     private void restartGame() {

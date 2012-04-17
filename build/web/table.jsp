@@ -82,7 +82,7 @@ function callServlet()
 							</tr>
 							<tr>
 								<th>F&uuml;hrender</th>
-								<td>mehrere</td>
+								<td><%= gameInfo.getLeader() %></td>
 							</tr>
 							<tr>
 								<th>Aktuelle Runde</th>
