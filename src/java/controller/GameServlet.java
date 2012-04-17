@@ -119,9 +119,61 @@ public class GameServlet extends HttpServlet {
                 }
                 
                 // Spieler2 würfelt
-                //wuerfeln(this.player2);
+                wuerfeln(this.player2);
                 
                 // Spieler2 würfelt eine 6
+                if (this.player2.getCube().getNumber() == 6) {
+                    // Spieler2 ist noch im Starthaus
+                    if (this.player2.getRunning() == false) {
+                        // Spieler2 auf erstes Feld setzen
+                        this.player2.setRunning(true);
+                        this.player2.setActPosition(11);
+                    
+                        Field f = new Field();
+                        f.setId("field" + player2.getActPosition());
+                        f.setAlt("");
+                        f.setTitle("");
+                        f.setSrc("img/field_green_player_green.png");
+                        this.fieldMap.getFieldMap().put(new Integer(11), f);
+                    
+                        // Spieler2 Starthaus leeren
+                        Field ff = new Field();
+                        ff.setId("field" + 45);
+                        ff.setAlt("");
+                        ff.setTitle("");
+                        ff.setSrc("img/field2.png");
+                        this.player2.getHomeMap().getFieldMap().put(new Integer(45), ff);
+                    
+                        session.setAttribute("fieldMap", this.fieldMap);
+                        session.setAttribute("gameInfo", gameInfo);
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
+                        dispatcher.forward(request, response);
+                    } else {
+                        // Spieler2 ist bereits im Feld
+                        move(this.player2);
+                        // Spieler2 darf nocheinmal würfeln
+                        session.setAttribute("gameInfo", gameInfo);
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
+                        dispatcher.forward(request, response);
+                    }
+                } else {
+                    // Spieler2 würfelt keine 6
+                    // Überprüfen ob noch im Starthaus
+                    if (this.player2.getRunning() == false) {
+                        // Spieler2 ist im Starthaus
+                        session.setAttribute("fieldMap", this.fieldMap);
+                        session.setAttribute("gameInfo", gameInfo);
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
+                        dispatcher.forward(request, response);
+                    } else {
+                        // Spieler2 ist bereits im Feld
+                        move(this.player2);
+                    
+                        session.setAttribute("fieldMap", this.fieldMap);
+                        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/table.jsp");
+                        dispatcher.forward(request, response);
+                    }
+                }
             }
         }
     }
