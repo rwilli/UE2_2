@@ -91,8 +91,7 @@ public class GameServlet extends HttpServlet {
     }
     
      public void setGameInfo(GameInformation gameInfo){
-        //this.init();
-        gameInfo = new GameInformation();
+            this.gameInfo = gameInfo;
     }
     public GameInformation getGameInfo(HttpSession session){
         return (GameInformation)session.getAttribute("gameInfo");
@@ -103,6 +102,9 @@ public class GameServlet extends HttpServlet {
      * Processes requests for both HTTP
      * <code>GET</code> and
      * <code>POST</code> methods.
+     * 
+     * 
+     * 
      *
      * @param request servlet request
      * @param response servlet response
@@ -150,30 +152,36 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {        
-        //processRequest(request, response);
+        /* processRequest(request, response);
         String action = request.getParameter("action");
+        response.setContentType("text/html;charset=UTF-8");
+         HttpSession session = request.getSession(true);
         
-        /*HttpSession session = request.getSession(true);
-        if (getGameInfo(session)== null){
+		if (getGameInfo(session)== null){
             setGameInfo(new GameInformation());
         }
-        */
-        if (action == null) {
+		*/
+		
+		String action = request.getParameter("action");
+		if(action==null) {
             return;
         }
-        
         if (action.equals("wuerfeln")) { 
-			response.setContentType("text/html;charset=UTF-8");
-            HttpSession session = request.getSession(false);
 			
-		//GameInformation	gameInfos = (GameInformation)request.getSession().getAttribute("gameInfo");
-		this.gameinfo = (GameInformation)request.getSession().getAttribute("gameInfo");
-		   this.gameInfo.incrementRound();
-            //this.gameInfo.getRound();
-            
-            //player to cube
+		response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession(true);
+			
+			Player player = gameInfo.getPlayerById(request.getParameter("str"));
+			
             wuerfeln(this.player1);
+            this.gameInfo.incrementRound();
+			
+			player = (Player)request.getSession().getAttribute("player");
+            //player to cube
+            
             move(this.player1);
+			
+            session.setAttribute("player", player);
             session.setAttribute("wuerfel", player1.getCube());
             session.setAttribute("fieldMap", this.fieldMap);
             
