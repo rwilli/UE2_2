@@ -64,8 +64,10 @@ function callServlet()
 				</div>
 				<hr class="accessibility" />				
 				<div id="info_area">
-                                    <% if (gameInfo.getFinished()) {%>   
+                                    <% if (gameInfo.getFinished()) {%> 
+                                        <form action="GameServlet" method="POST">
                                         <input type="submit" value="Restart Game" accesskey="r"/>
+                                        </form>
                                     <% } %>
                                         <h2>Spielinformationen</h2>
 					<table class="game_info" summary="Diese Tabelle zeigt Informationen zum aktuellen Spiel">
@@ -114,7 +116,7 @@ function callServlet()
 					<hr class="accessibility" />
 					<h2 class="accessibility">W&uuml;rfel</h2>
 					<span title='aktueller Spieler'>Super Mario</span>
-                                        <img name="wuerfel" title="<%= wuerfel.getTitle() %>" src="<%= wuerfel.getImage() %>" alt="<%= wuerfel.getAlt() %>" onclick="callServlet()"/>
+                                        <img name="wuerfel" title="<%= wuerfel.getTitle() %>" src="<%= wuerfel.getSrc() %>" alt="<%= wuerfel.getAlt() %>" onclick="callServlet()"/>
 				</div>
 				<div id="play_area">
 					<hr class="accessibility" />

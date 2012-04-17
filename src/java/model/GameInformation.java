@@ -1,24 +1,35 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- *
- * @author rainer
+/*
+ * Die Klasse GameInformation verwaltet alle relevanten
+ * Informationen zum Spiel. Die Anzahl der Spieler, die
+ * aktuelle Runde + Zeit, ob das Spiel gewonnen wurde und
+ * welcher Spieler gerade führt.
  */
 public class GameInformation {
+    // Sammlung von Spielern
     private HashMap<String, Player> players = null;
+    
+    // aktuelle Runde
     private int round = 0;
+    
+    // Startzeit
     private long start = 0;
+    
+    // Rundenzeit Sekunden
     private int sec = 0;
+    
+    // Rundenzeit Minuten
     private int min = 0;
+    
+    // Würfelergebnisse des Computers
     private String cubeComputer = "";
+    
+    // Flag für das Spielende
     private boolean isFinished = false;
     
     public GameInformation() {

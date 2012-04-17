@@ -1,24 +1,24 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author rainer
+/*
+ * Klasse Field steht für ein einzelnes
+ * rundes Spielfeld
  */
 public class Field {
-    //private int id = 0;
+    // ID des Spielfelds
     private String id = "";
+    
+    // Pfad zum Bild des Spielfelds
     private String src = "";
+    
+    // Hinweis zum Spielfeld
     private String alt = "";
+    
+    // Titel des Spielfelds
     private String title = "";
-    private static int count = 0;
     
     public Field() {
-        //++count;
-        //id = count;
+    
     }
     
     public void setId(String id) {

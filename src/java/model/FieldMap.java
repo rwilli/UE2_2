@@ -1,28 +1,20 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.util.ArrayList;
-import model.Field;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- *
- * @author rainer
+/*
+ * Die Klasse FieldMap beinhaltet eine Sammlung
+ * an Spielfeldern (Field) 
  */
 public class FieldMap {
+    // Sammlung der Spielfelder (Fields)
     private HashMap<Integer, Field> fields = new HashMap<Integer, Field>();
     
     public FieldMap() {
         
     }
-    
-    //public void setFieldList(List lst) {
-    //    this.fieldList = new ArrayList<Field>(lst);
-    //}
     
     public HashMap getFieldMap() {
         return this.fields;

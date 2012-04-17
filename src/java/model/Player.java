@@ -1,25 +1,43 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
-/**
- *
- * @author rainer
+/*
+ * Die Klasse Player verwaltet die Spieler. Dabei hat
+ * jeder Spieler zusätzlich zu seinen Bildinformationen,
+ * einen Würfel und eine Sammlung von Start- und Zielfeldern.
  */
 public class Player {
+    // ID des Spielers
     private String id = "";
+    
+    // Name des Spielers
     private String name = "";
-    private String image = "";
+    
+    // Pfad zum Bild
+    private String src = "";
+    
+    // Titel des Spielers
     private String title = "";
+    
+    // Hinweis zum Spieler
     private String alt = "";
-    private int actPosition = 0;
+    
+    // Aktuelle Position
+    private int position = 0;
+    
+    // Würfel des Spielers
     private Cube cube = null;
-    //private FieldMap fieldList = null;
+    
+    // Startfelder
     private FieldMap homeMap = null;
+    
+    // Zielfelder
     private FieldMap goalMap = null;
-    private int offset = 0;
+    
+    private int start = 0;
+    private int stop = 0;
+    
+    // zeigt an ob der Spieler im Spiel ist
+    private boolean isRunning = false;
     
     public Player() {
         
@@ -41,12 +59,12 @@ public class Player {
         return this.name;
     }
     
-    public void setImage(String image) {
-        this.image = image;
+    public void setSrc(String src) {
+        this.src = src;
     }
     
-    public String getImage() {
-        return this.image;
+    public String getSrc() {
+        return this.src;
     }
     
     public void setTitle(String title) {
@@ -66,11 +84,11 @@ public class Player {
     }
     
     public void setActPosition(int pos) {
-        this.actPosition = pos;
+        this.position = pos;
     }
     
     public int getActPosition() {
-        return this.actPosition;
+        return this.position;
     }
     
     public void setCube(Cube cube) {
@@ -105,11 +123,35 @@ public class Player {
         return this.goalMap;
     }
     
-    public void setOffset(int offset) {
+    /*public void setOffset(int offset) {
         this.offset = offset;
     }
     
     public int getOffset() {
         return this.offset;
+    }*/
+    
+    public void setStart(int st) {
+        this.start = st;
+    }
+    
+    public int getStart() {
+        return this.start;
+    }
+    
+    public void setStop(int end) {
+        this.stop = end;
+    }
+    
+    public int getStop() {
+        return this.stop;
+    }
+    
+    public void setRunning(boolean run) {
+        this.isRunning = run;
+    }
+    
+    public boolean getRunning() {
+        return this.isRunning;
     }
 }

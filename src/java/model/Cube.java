@@ -1,17 +1,21 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 /**
  *
- * @author rainer
+ * Klasse Cube steht für den Würfel im Spiel.
+ * 
  */
 public class Cube {
+    // Titel des Würfels
     private String title = "";
-    private String image = "";
+    
+    // Pfad zum Bild des Würfels
+    private String src = "";
+    
+    // Hinweis zum Würfel
     private String alt = "";
+    
+    // Aktuelle Augenzahl des Würfels
     private int number = 0;
     
     public Cube() {
@@ -26,12 +30,12 @@ public class Cube {
         return this.title;
     }
     
-    public void setImage(String image) {
-        this.image = image;
+    public void setSrc(String src) {
+        this.src = src;
     }
     
-    public String getImage() {
-        return this.image;
+    public String getSrc() {
+        return this.src;
     }
     
     public void setAlt(String alt) {
